@@ -1,25 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {Component} from 'react';
+import Start from "./components/Start";
+import Game from "./components/Game";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            fullName: null,
+            wins: 0,
+            looses: 0,
+            games: 0,
+        }
+    }
+    setUser = (name) => {
+        this.setState({...this.state, fullName: name});
+        console.log(this.state);
+    }
+
+    render() {
+        if (!this.state.fullName) {
+            return <Start setUser={this.setUser}/>
+        } else {
+            console.log(this.state);
+            return <Game games={this.state.games}
+                         wins={this.state.wins}
+                         looses={this.state.looses}
+            />
+        }
+    }
 }
 
 export default App;
