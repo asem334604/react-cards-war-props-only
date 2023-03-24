@@ -30,3 +30,13 @@
     font-size: 30px;
     color: lightskyblue;
 }
+.start_input{
+    display: block;
+    border: 1px solid green;
+    height: 30px;
+    width: 200px;
+    margin: 40px auto;
+    font-size: 20px;
+    text-shadow: 2px 2px 2px lightgray;
+    padding-left: 40px;
+}
