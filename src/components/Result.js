@@ -5,20 +5,19 @@ import './style.css';
 class Result extends Component {
     constructor(props) {
         super(props)
-        this.state = {
-            newGame: false
-        }
+        this.state = {newGame: false}
     }
+
     componentDidMount() {
         this.setState({newGame: false})
     }
 
-    startNewGame =() => {
+    startNewGame = () => {
         this.setState({newGame: true})
     }
 
     render() {
-        if(this.state.newGame){
+        if (this.state.newGame) {
             return <Game/>
         }
         return (

@@ -38,24 +38,21 @@ class Game extends Component {
                 newDeck.splice(cardPos, 1);
             }
         }
-        this.setState({
-            ...this.state,
-            playerDeal: pArr,
-            compDeal: cArr
-        }, () => {
-            console.log('state in function deal cards:', this.state);
-            const savedState = sessionStorage.getItem('gameState');
-            if (savedState) {
-                const prevState = JSON.parse(savedState);
-                this.setState({
-                    games: prevState.games,
-                    wins: prevState.wins,
-                    looses: prevState.looses
-                }, () => {
-                    console.log('update after restore', this.state)
-                })
-            }
-        });
+        this.setState({...this.state, playerDeal: pArr, compDeal: cArr},
+            () => {
+                console.log('state in function deal cards:', this.state);
+                const savedState = sessionStorage.getItem('gameState');
+                if (savedState) {
+                    const prevState = JSON.parse(savedState);
+                    this.setState({
+                        games: prevState.games,
+                        wins: prevState.wins,
+                        looses: prevState.looses
+                    }, () => {
+                        console.log('update after restore', this.state)
+                    })
+                }
+            });
     }
 
     nextMove = () => {
@@ -66,10 +63,8 @@ class Game extends Component {
             } else {
                 compTakesNow++
             }
-            let compArr = [...this.state.compDeal];
-            let playerArr = [...this.state.playerDeal];
-            let prevPlayerTakes = this.state.playerTakes;
-            let prevCompTakes = this.state.compTakes;
+            let compArr = [...this.state.compDeal], playerArr = [...this.state.playerDeal];
+            let prevPlayerTakes = this.state.playerTakes, prevCompTakes = this.state.compTakes;
             compArr.splice(0, 1);
             playerArr.splice(0, 1);
             this.setState({
@@ -81,25 +76,16 @@ class Game extends Component {
             }, () => {
                 console.log('state changed after move', this.state)
             })
-        } else if (this.state.compDeal.length === 0 || this.state.playerDeal.length === 0) {
-            let prevWins = this.state.wins,
-                prevLooses = this.state.looses,
-                prevGames = this.state.games,
-                win = prevWins,
-                loose = prevLooses;
-
+        } else {
+            let wins = this.state.wins, looses = this.state.looses, games = this.state.games
             if (this.state.playerTakes > this.state.compTakes) {
-                win++;
+                wins++;
             } else {
-                loose++;
+                looses++;
             }
             this.setState({
-                ...this.state,
-                isGameEnded: true,
-                wins: win,
-                looses: loose,
-                games: prevGames + 1
-            }, () => {
+                ...this.state, isGameEnded: true, wins ,looses, games: games + 1},
+                () => {
                 console.log('state changed after game ended', this.state);
                 sessionStorage.removeItem('gameState')
                 sessionStorage.setItem('gameState', JSON.stringify(this.state));
@@ -116,8 +102,6 @@ class Game extends Component {
                 looses={this.state.looses}
             />
         } else {
-            console.log(this.state.compDeal);
-            console.log(this.state.playerDeal)
             return <div className={'container'}>
                 <h2>COMPUTER</h2>
                 <div className="card">{this.state.compDeal[0]}</div>
